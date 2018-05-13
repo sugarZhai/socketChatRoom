@@ -1,0 +1,49 @@
+一、首先科普下socket.io
+1、所谓长轮询，是指前端发送一个 request，服务端会等到有数据需要返回时再 response.
+前端收到 response 后马上发送下一次 request。这样就可以实现双向通信。
+2、服务端：服务端使用 ws 库实现 WebSocket 协议。http://socket.io 服务启动时，会先启动一个 ws 服务。
+http://socket.io 会监听 HTTP 服务器的 upgrade 和 request 事件。
+当 upgrade 事件触发时，说明可能是 WebSocket 握手，先简单校验下，然后把请求交给 ws 服务进行处理，
+拿到 WebSocket 对象。当 request 事件触发时，根据 url 路径判断是不是 http://socket.io 的 XHR 请求，
+拿到 res 和 res 对象。这样就可以正确接收和返回客户端数据了，具体处理过程和前端部分是对应的。
+3、流程大致是这样的：
+(1)、服务端启动一个socket服务，并监听'connection'事件。
+(2)、客户端（一般指浏览器）创建一个websocket，并连接服务器端的socket，并绑定接收socket事件的方法。
+(3)、客户连接后，服务端socket就可以向客户端发消息了。
+ps:
+1、socket通讯可以简单的理解为一个真正意义上的长链接，不主动断开的话该通道一直存在，并且通道的两端可以互相喊话。
+普通的请求比如http\xhr这类的，是一个一次性的通讯，当通讯完成后，通道会关闭。
+socket一次通讯后并不会关闭通道，这就是他们的区别所在。
+2、推荐的是将socket当作一个类http服务，不同的请求可以当成router+handle的方法来处理，
+这样就不会有一堆乱七八糟的的on\emit了。
+3、http://socket.io官方也推荐使用namespace来区分多个处理服务。
+
+官方demo:
+服务端：
+
+var app=require('http').createServer(handler);
+var io=require('socket.io')(app);
+var fs=require('fs');
+app.listen(80);
+//创建socket,监听连接
+io.on('connection',function(socket){
+//收到连接后，触发'new'事件
+socket.emit('news',{hello:'world'});
+//接收客户端事件
+socket.on('my other event',function(data){
+  console.log(data)
+ })
+});
+
+客户端：
+var socket=io('http://localhost');
+//自定义一个'news'事件
+socket.on('news',(data)=>{
+   console.log(data);
+   //发送事件到服务端
+   socket.emit('my other event',{my:'data'});
+});
+
+//socket.emit('action',data);表示发送了一个action命令，还有data数据，在另一端接收时，可以这么写： socket.on('action',function(data){...});
+二、npm install
+npm start

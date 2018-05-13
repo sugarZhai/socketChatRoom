@@ -1,0 +1,24 @@
+{
+  "name": "socketchatroom",
+  "version": "1.0.0",
+  "description": "socketchat",
+  "main": "index.js",
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "express": "^4.14.0",
+    "socket.io": "^1.5.1",
+    "uuid": "^2.0.3",
+    "ws": "^1.1.1",
+    "websocket.io": "^0.2.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [
+    "socket"
+  ],
+  "author": "zhaishuang",
+  "license": "ISC"
+}

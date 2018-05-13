@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+    <title>群众聊天室</title>
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css">
+    <style>
+        .userName{
+            color: #00b3ee;
+            cursor: pointer;
+        }
+    </style>
+    <script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+</head>
+<body>
+<div class="panel panel-default">
+    <div class="panel-heading">聊天室</div>
+    <div class="panel-body">
+        <ul class="list-group" id="list">
+
+        </ul>
+    </div>
+    <div class="panel-footer">
+        <input type="text" class="form-control" id="content">
+        <button class="btn btn-primary" id="btn">发言</button>
+    </div>
+</div>
+<script src="/socket.io/socket.io.js"></script>
+<script src="./index.js"></script>
+</body>
+</html>
